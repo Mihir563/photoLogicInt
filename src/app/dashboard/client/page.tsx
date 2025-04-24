@@ -42,7 +42,6 @@ export default function ClientDashboard() {
           Find Photographers
         </Button>
       </div>
-
       {/* Client Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <Card>
@@ -87,10 +86,9 @@ export default function ClientDashboard() {
           </CardContent>
         </Card>
       </div>
-
       <Tabs defaultValue={getCurrentTab()} className="mt-8">
         <TabsList className="grid w-full grid-cols-3 mb-8">
-          <Link href="/dashboard/client/bookings" passHref>
+          <Link href="/dashboard/client/bookings" passHref legacyBehavior>
             <TabsTrigger
               value="bookings"
               data-active={getCurrentTab() === "bookings"}
@@ -98,7 +96,7 @@ export default function ClientDashboard() {
               My Bookings
             </TabsTrigger>
           </Link>
-          <Link href="/dashboard/client/messages" passHref>
+          <Link href="/dashboard/client/messages" passHref legacyBehavior>
             <TabsTrigger
               value="messages"
               data-active={getCurrentTab() === "messages"}
@@ -106,7 +104,7 @@ export default function ClientDashboard() {
               Messages
             </TabsTrigger>
           </Link>
-          <Link href="/dashboard/client/profile" passHref>
+          <Link href="/dashboard/client/profile" passHref legacyBehavior>
             <TabsTrigger
               value="profile"
               data-active={getCurrentTab() === "profile"}

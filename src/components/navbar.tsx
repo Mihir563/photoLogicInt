@@ -87,7 +87,7 @@ useEffect(() => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-8">
-          <Link href="/" className="font-bold text-xl ml-2">
+          <Link href="/" className="font-bold text-xl ml-2" legacyBehavior>
             <svg
               width="200"
               height="80"
@@ -128,9 +128,9 @@ useEffect(() => {
                     <li className="row-span-3">
                       <NavigationMenuLink asChild>
                         <Link
-                        href={"/"}
+                          href={"/"}
                           className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                        >
+                          legacyBehavior>
                           <div className="mb-2 mt-4 text-lg font-medium">
                             Featured Photographers
                           </div>
@@ -296,7 +296,7 @@ useEffect(() => {
             </SheetTrigger>
             <SheetContent side="right">
               <div className="grid gap-4 py-4">
-                <Link href="/" className="font-bold text-xl px-2">
+                <Link href="/" className="font-bold text-xl px-2" legacyBehavior>
                   <svg
                     width="200"
                     height="80"

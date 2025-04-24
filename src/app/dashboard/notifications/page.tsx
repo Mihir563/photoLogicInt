@@ -139,7 +139,6 @@ export default function NotificationsPage() {
           filter: `user_id=eq.${userId}`,
         },
         (payload) => {
-          console.log("Real-time notification update:", payload);
 
           // Handle different database events
           if (payload.eventType === "INSERT") {

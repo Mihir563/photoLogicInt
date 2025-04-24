@@ -23,13 +23,16 @@ export default function ClientLayout({
   }, [pathname, router]);
 
   return (
-    <div className="flex flex-col gap-8">
-      <Suspense fallback={<CosmicLoader />}></Suspense>
-
-      {/* Main content for the route will be rendered here */}
-      <div className="client-content-container">{children}</div>
-      {/* Tabs content will be rendered here */}
-      <div className="client-tabs-container">{tabs}</div>
+    <div className="flex flex-col space-y-4">
+      {/* Dashboard header and stats - this is the main content */}
+      <Suspense fallback={<CosmicLoader />}>
+        {children}
+      </Suspense>
+      
+      {/* Tab navigation and content */}
+      <Suspense fallback={<CosmicLoader />}>
+        {tabs}
+      </Suspense>
     </div>
   );
 }

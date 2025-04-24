@@ -60,7 +60,8 @@ export async function GET(request: Request) {
     const { data, error } = await supabaseQuery
 
     if (error) {
-      return NextResponse.json({ error: "Error searching photographers" }, { status: 500 })
+      console.error("Supabase error:", error);
+      return NextResponse.json({ error: "Error searching photographers", details: error.message || error }, { status: 500 })
     }
 
     // Format the data

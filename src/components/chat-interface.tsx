@@ -165,7 +165,6 @@ export default function ChatInterface() {
         .or(`sender_id.eq.${userId},receiver_id.eq.${userId}`)
         .order("created_at", { ascending: false });
 
-      console.log("Raw messages data:", messagesData);
 
       if (messagesError) throw messagesError;
 
@@ -537,7 +536,6 @@ export default function ChatInterface() {
   const fetchContactStatus = useCallback(async () => {
     if (!activeChat) return;
 
-    console.log("Rendeering");
     try {
       const response = await axios.get(`/api/message?userId=${activeChat}`);
       const data = response.data;
@@ -567,9 +565,7 @@ export default function ChatInterface() {
       clearInterval(statusInterval);
     };
   }, [activeChat, fetchContactStatus]);
-
-  console.log(messages);
-  console.log(contacts);
+  
   return (
     <div className="flex h-[calc(100vh-4rem)] max-h-[600px] border rounded-lg overflow-hidden">
       {/* Contact List - Hidden on mobile when in chat view */}

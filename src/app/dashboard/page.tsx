@@ -181,7 +181,7 @@ export default function PhotographerDashboard() {
       </div>
       <Tabs defaultValue={getCurrentTab()} className="mt-8">
         <TabsList className="flex flex-wrap justify-center gap-2 md:justify-start">
-          <Link href="/dashboard/bookings" passHref legacyBehavior>
+          <Link href="/dashboard/bookings" passHref>
             <TabsTrigger
               value="bookings"
               className="flex-1 min-w-[120px]"
@@ -190,7 +190,7 @@ export default function PhotographerDashboard() {
               Bookings
             </TabsTrigger>
           </Link>
-          <Link href="/dashboard/messages" passHref legacyBehavior>
+          <Link href="/dashboard/messages" passHref>
             <TabsTrigger
               value="messages"
               className="flex-1 min-w-[120px]"
@@ -200,7 +200,7 @@ export default function PhotographerDashboard() {
               
             </TabsTrigger>
           </Link>
-          <Link href="/dashboard/portfolio" passHref legacyBehavior>
+          <Link href="/dashboard/portfolio" passHref>
             <TabsTrigger
               value="portfolio"
               className="flex-1 min-w-[120px]"
@@ -209,7 +209,7 @@ export default function PhotographerDashboard() {
               Portfolio
             </TabsTrigger>
           </Link>
-          <Link href="/dashboard/profile" passHref legacyBehavior>
+          <Link href="/dashboard/profile" passHref>
             <TabsTrigger
               value="profile"
               className="flex-1 min-w-[120px]"
@@ -218,7 +218,7 @@ export default function PhotographerDashboard() {
               Profile
             </TabsTrigger>
           </Link>
-          <Link href="/dashboard/pricing" passHref legacyBehavior>
+          <Link href="/dashboard/pricing" passHref>
             <TabsTrigger
               value="pricing"
               className="flex-1 min-w-[120px]"
@@ -227,7 +227,7 @@ export default function PhotographerDashboard() {
               Pricing
             </TabsTrigger>
           </Link>
-          <Link href="/dashboard/availability" passHref legacyBehavior>
+          <Link href="/dashboard/availability" passHref>
             <TabsTrigger
               value="availability"
               className="flex-1 min-w-[120px]"

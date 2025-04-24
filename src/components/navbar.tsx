@@ -87,7 +87,7 @@ useEffect(() => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-8">
-          <Link href="/" className="font-bold text-xl ml-2" legacyBehavior>
+          <Link href="/" className="font-bold text-xl ml-2" >
             <svg
               width="200"
               height="80"
@@ -130,7 +130,7 @@ useEffect(() => {
                         <Link
                           href={"/"}
                           className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                          legacyBehavior>
+                          >
                           <div className="mb-2 mt-4 text-lg font-medium">
                             Featured Photographers
                           </div>
@@ -142,7 +142,7 @@ useEffect(() => {
                       </NavigationMenuLink>
                     </li>
                     <li>
-                      <Link href="/categories/wedding" legacyBehavior passHref>
+                      <Link href="/categories/wedding"  passHref>
                         <NavigationMenuLink
                           className={cn(
                             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
@@ -159,7 +159,7 @@ useEffect(() => {
                       </Link>
                     </li>
                     <li>
-                      <Link href="/categories/portrait" legacyBehavior passHref>
+                      <Link href="/categories/portrait"  passHref>
                         <NavigationMenuLink
                           className={cn(
                             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
@@ -178,7 +178,7 @@ useEffect(() => {
                     <li>
                       <Link
                         href="/categories/commercial"
-                        legacyBehavior
+                        
                         passHref
                       >
                         <NavigationMenuLink
@@ -199,7 +199,7 @@ useEffect(() => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/how-it-works" legacyBehavior passHref>
+                <Link href="/how-it-works"  passHref>
                   <NavigationMenuLink
                     className={cn(
                       "group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
@@ -210,7 +210,7 @@ useEffect(() => {
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/pricing" legacyBehavior passHref>
+                <Link href="/pricing"  passHref>
                   <NavigationMenuLink
                     className={cn(
                       "group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
@@ -296,7 +296,7 @@ useEffect(() => {
             </SheetTrigger>
             <SheetContent side="right">
               <div className="grid gap-4 py-4">
-                <Link href="/" className="font-bold text-xl px-2" legacyBehavior>
+                <Link href="/" className="font-bold text-xl px-2" >
                   <svg
                     width="200"
                     height="80"

@@ -27,7 +27,6 @@ export default function PhotographerCard({
     bio,
   } = photographer;
 
-  console.log("PhotographerCard", { photographer });
 
   return (
     <Card className="overflow-hidden transition-all hover:shadow-md">

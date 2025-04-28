@@ -9,10 +9,8 @@ import CosmicLoader from "@/app/loading";
 
 export default function DashboardLayout({
   children,
-  tabs,
 }: {
   children: React.ReactNode;
-  tabs: React.ReactNode;
 }) {
   const [userRole, setUserRole] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -107,28 +105,9 @@ export default function DashboardLayout({
     );
   }
 
-  // Redirect client users to client dashboard
-  if (
-    userRole === "client" &&
-    !pathname.includes("/dashboard/client")
-  ) {
-    router.push("/dashboard/client");
-    return null;
-  }
-
-  // Redirect photographer users to photographer dashboard
-  if (
-    userRole === "photographer" &&
-    pathname.includes("/dashboard/client")
-  ) {
-    router.push("/dashboard");
-    return null;
-  }
-
   return (
     <div className="container mx-auto px-4 py-8">
       {children}
-      {tabs}
       <Toaster />
     </div>
   );

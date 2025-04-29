@@ -15,9 +15,39 @@ import AvailabilityManager from "@/components/availability-manager";
 import ProfileForm from "@/components/profile-form";
 import CosmicLoader from "@/app/loading";
 
+const TABS = ["bookings", "messages", "portfolio", "pricing", "availability", "profile"];
+
 export default function Dashboard() {
   const [userData, setUserData] = useState<{ id: string, account_type: string } | null>(null);
-  const [activeTab, setActiveTab] = useState("bookings");
+
+  // Helper to get tab from hash or default
+  const getTabFromHash = () => {
+    const hash = window.location.hash.replace("#", "");
+    return TABS.includes(hash) ? hash : "bookings";
+  };
+
+  const [activeTab, setActiveTab] = useState(getTabFromHash);
+
+  // Robustly sync activeTab with hash
+  useEffect(() => {
+    const onHashChange = () => {
+      const tab = getTabFromHash();
+      setActiveTab(tab);
+    };
+    window.addEventListener("hashchange", onHashChange);
+    // Sync on mount and if hash changes programmatically
+    onHashChange();
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
+
+  // When tab changes, update the hash only if different
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    if (window.location.hash.replace("#", "") !== tab) {
+      window.location.hash = tab;
+    }
+  };
+
   const [stats, setStats] = useState({
     totalBookings: 0,
     newMessages: 0,
@@ -120,14 +150,36 @@ export default function Dashboard() {
       <>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-bold">
-              {isPhotographer ? "Photographer Dashboard" : "Client Dashboard"}
-            </h1>
-            <p className="text-muted-foreground">
-              {isPhotographer 
-                ? "Manage your profile, bookings, and messages" 
-                : "Manage your bookings and find photographers"}
-            </p>
+             {/* Dynamic header based on active tab */}
+            {(() => {
+              const tabTitles: Record<string, string> = {
+                bookings: "Bookings",
+                messages: "Messages",
+                portfolio: "Portfolio",
+                pricing: "Pricing",
+                availability: "Availability",
+                profile: "Profile",
+              };
+              const tabDescriptions: Record<string, string> = {
+                bookings: "Manage your photography sessions",
+                messages: "Chat with clients or photographers",
+                portfolio: "Showcase your best work",
+                pricing: "Manage your service packages",
+                availability: "Set your available time slots",
+                profile: "Manage your personal information",
+              };
+              const title = tabTitles[activeTab] || (isPhotographer ? "Photographer Dashboard" : "Client Dashboard");
+              const desc = tabDescriptions[activeTab] || (isPhotographer
+                ? "Manage your profile, bookings, and messages"
+                : "Manage your bookings and find photographers");
+              return (
+                <>
+                  <h1 className="text-3xl font-bold">{title}</h1>
+                  <p className="text-muted-foreground">{desc}</p>
+                </>
+              );
+            })()}
+
           </div>
           {isPhotographer ? (
             <Button onClick={() => router.push(`/photographers/${userData?.id}`)}>
@@ -221,7 +273,12 @@ export default function Dashboard() {
         </div>
         
         {/* Tabs Navigation */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-8">
+        <Tabs
+          key={activeTab}
+          value={activeTab}
+          onValueChange={handleTabChange}
+          className="w-full"
+        >
           <TabsList className="flex flex-wrap justify-center gap-2 md:justify-start">
             <TabsTrigger
               value="bookings"

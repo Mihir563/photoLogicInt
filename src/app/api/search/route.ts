@@ -36,12 +36,16 @@ export async function GET(request: Request) {
       supabaseQuery = supabaseQuery.ilike("location", `%${location}%`)
     }
 
-    if (category) {
-      supabaseQuery = supabaseQuery.contains("specialties", [category])
-    }
+    // Remove .contains() for category to fetch all photographers; filter in JS below
+    // if (category) {
+    //   supabaseQuery = supabaseQuery.contains("specialties", [category.toLowerCase()]);
+    // }
 
     if (specialties.length > 0) {
-      supabaseQuery = supabaseQuery.contains("specialties", specialties)
+      // Lowercase all specialties for matching
+      const lowerSpecialties = specialties.map(s => s.toLowerCase());
+      // Fetch all, filter in JS for OR logic
+      // (Supabase JS client does not support array overlap operator directly)
     }
 
     supabaseQuery = supabaseQuery.gte("hourly_rate", minPrice).lte("hourly_rate", maxPrice)
@@ -64,8 +68,27 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Error searching photographers", details: error.message || error }, { status: 500 })
     }
 
+    // Filter in JS for case-insensitive specialty match if category is provided
+    let filtered = data;
+    if (category) {
+      filtered = data.filter(profile =>
+        (profile.specialties || []).some(
+          (s: string) => s.toLowerCase() === category.toLowerCase()
+        )
+      );
+    }
+    // If specialties are selected, further filter for OR logic (any match)
+    if (specialties.length > 0) {
+      const lowerSpecialties = specialties.map(s => s.toLowerCase());
+      filtered = filtered.filter(profile =>
+        (profile.specialties || []).some(
+          (s: string) => lowerSpecialties.includes(s.toLowerCase())
+        )
+      );
+    }
+
     // Format the data
-    const photographers = data.map((profile) => ({
+    const photographers = filtered.map((profile) => ({
       id: profile.id,
       name: profile.name,
       avatar: profile.avatar_url,

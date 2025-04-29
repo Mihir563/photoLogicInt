@@ -121,11 +121,6 @@ async function handleTypingStatus(
   isTyping: boolean
 ) {
   try {
-    // Debug
-    console.log(
-      `Updating typing status: ${senderId} is typing to ${receiverId}: ${isTyping}`
-    );
-
     await updateChatStatus(
       senderId,
       isTyping ? "typing" : "active",

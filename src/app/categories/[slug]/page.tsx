@@ -19,7 +19,7 @@ export default function CategoryPage() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`/api/search?category=${slug}`);
+        const res = await fetch(`/api/categories/${slug}`);
         if (!res.ok) throw new Error("Failed to fetch photographers");
         const data = await res.json();
         setPhotographers(data.photographers || []);

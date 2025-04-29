@@ -23,7 +23,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { toast, Toaster } from "sonner";
 import NotificationCenter from "./notification";
@@ -36,6 +36,16 @@ export default function Navbar() {
     avatar_url: string;
   } | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
+
+  // Dashboard tab navigation handler
+  const handleTabNav = (tab: string, e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (pathname === "/dashboard") {
+      e.preventDefault();
+      window.location.hash = tab;
+    }
+    // else, let <Link> handle the navigation
+  };
   
   const handleAuth = () => {
     router.push("/auth");
@@ -199,15 +209,11 @@ useEffect(() => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/how-it-works"  passHref>
-                  <NavigationMenuLink
-                    className={cn(
-                      "group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-                    )}
-                  >
+                <NavigationMenuLink asChild>
+                  <Link href="/how-it-works">
                     How It Works
-                  </NavigationMenuLink>
-                </Link>
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link href="/pricing"  passHref>
@@ -264,14 +270,14 @@ useEffect(() => {
                 <DropdownMenuItem asChild>
                   <Link href="/dashboard">Dashboard</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/profile">Profile</Link>
+                <DropdownMenuItem onClick={e => handleTabNav("profile", e)}>
+                  Profile
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/bookings">Bookings</Link>
+                <DropdownMenuItem onClick={e => handleTabNav("bookings", e)}>
+                  Bookings
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/messages">Messages</Link>
+                <DropdownMenuItem onClick={e => handleTabNav("messages", e)}>
+                  Messages
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => handleLogout()}>
@@ -348,20 +354,23 @@ useEffect(() => {
                       Dashboard
                     </Link>
                     <Link
-                      href="/dashboard/profile"
+                      href="/dashboard#profile"
                       className="flex py-2 px-2 hover:bg-gray-300 rounded-xl"
+                      onClick={e => handleTabNav("profile", e)}
                     >
                       Profile
                     </Link>
                     <Link
-                      href="/dashboard/bookings"
+                      href="/dashboard#bookings"
                       className="flex py-2 px-2 hover:bg-gray-300 rounded-xl"
+                      onClick={e => handleTabNav("bookings", e)}
                     >
                       Bookings
                     </Link>
                     <Link
-                      href="/dashboard/messages"
+                      href="/dashboard#messages"
                       className="flex py-2 px-2 hover:bg-gray-300 rounded-xl"
+                      onClick={e => handleTabNav("messages", e)}
                     >
                       Messages
                     </Link>

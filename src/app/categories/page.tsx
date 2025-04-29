@@ -47,15 +47,7 @@ export default function CategoriesPage() {
           ))}
         </div>
       )}
-        {categories.map((cat) => (
-          <Link
-            key={cat.slug}
-            href={`/categories/${cat.slug}`}
-            className="block border rounded-lg p-6 hover:shadow-lg transition bg-card"
-          >
-            <span className="text-xl font-semibold">{cat.name}</span>
-          </Link>
-        ))}
+
       </div>
   );
 }

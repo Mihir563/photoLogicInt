@@ -10,7 +10,36 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
             <Link href="/" className="font-bold text-xl">
-              PhotoLogic
+              <svg
+                width="200"
+                height="80"
+                viewBox="0 0 300 80"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ display: 'inline', verticalAlign: 'middle' }}
+              >
+                <circle cx="40" cy="40" r="30" fill="#1E3A8A" />
+                <text
+                  x="40"
+                  y="47"
+                  textAnchor="middle"
+                  fontFamily="Arial, sans-serif"
+                  fontSize="28"
+                  fill="#ffffff"
+                  fontWeight="bold"
+                >
+                  PL
+                </text>
+                <text
+                  x="90"
+                  y="50"
+                  fontFamily="Helvetica, Arial, sans-serif"
+                  fontSize="32"
+                  fill="#1E3A8A"
+                  fontWeight="bold"
+                >
+                  PhotoLogic
+                </text>
+              </svg>
             </Link>
             <p className="mt-2 text-sm text-muted-foreground">
               Connect with talented photographers for your special moments, events, or professional needs.

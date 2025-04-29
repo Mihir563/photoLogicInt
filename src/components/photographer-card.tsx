@@ -98,8 +98,8 @@ export default function PhotographerCard({
         </div>
       </CardContent>
       <CardFooter className="border-t bg-muted/20 px-6 py-3">
-        <Button asChild className="w-full">
-          <Link href={`/photographers/${id}`}>View Profile</Link>
+        <Button className="w-full" onClick={() => window.location.href = `/photographers/${id}`}>
+          View Profile
         </Button>
       </CardFooter>
     </Card>

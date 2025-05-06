@@ -139,55 +139,122 @@ export default function NotificationsPage() {
           filter: `user_id=eq.${userId}`,
         },
         (payload) => {
-
           // Handle different database events
           if (payload.eventType === "INSERT") {
             setNotifications((current) => [
               payload.new as Notification,
               ...current,
             ]);
-            applyFilters(
-              [payload.new as Notification, ...notifications],
-              searchQuery,
-              typeFilter,
-              currentTab
-            );
+            // Use the callback form to ensure we have the latest state
+            setFilteredNotifications(prevFiltered => {
+              const updatedNotifications = [payload.new as Notification, ...notifications];
+              // Apply current filters
+              let filtered = [...updatedNotifications];
+              
+              // Apply tab filter first (read status)
+              if (currentTab === "unread") {
+                filtered = filtered.filter((notification) => !notification.read);
+              } else if (currentTab === "read") {
+                filtered = filtered.filter((notification) => notification.read);
+              }
+          
+              // Apply type filter
+              if (typeFilter !== "all") {
+                filtered = filtered.filter((notification) => notification.type === typeFilter);
+              }
+          
+              // Apply search query
+              if (searchQuery) {
+                const lowerQuery = searchQuery.toLowerCase();
+                filtered = filtered.filter(
+                  (notification) =>
+                    notification.title.toLowerCase().includes(lowerQuery) ||
+                    notification.message.toLowerCase().includes(lowerQuery)
+                );
+              }
+              
+              return filtered;
+            });
             setUnreadCount((count) => count + 1);
           } else if (payload.eventType === "UPDATE") {
-            const updatedNotifications = notifications.map((notification) =>
-              notification.id === payload.new.id
-                ? (payload.new as Notification)
-                : notification
-            );
-            setNotifications(updatedNotifications);
-            applyFilters(
-              updatedNotifications,
-              searchQuery,
-              typeFilter,
-              currentTab
-            );
+            setNotifications((current) => {
+              const updatedNotifications = current.map((notification) =>
+                notification.id === payload.new.id
+                  ? (payload.new as Notification)
+                  : notification
+              );
+              return updatedNotifications;
+            });
+            
+            // Update filtered notifications separately using the latest state
+            setFilteredNotifications(prevFiltered => {
+              // Get the latest notifications state
+              const updatedNotifications = notifications.map((notification) =>
+                notification.id === payload.new.id
+                  ? (payload.new as Notification)
+                  : notification
+              );
+              
+              // Apply current filters
+              let filtered = [...updatedNotifications];
+              
+              // Apply tab filter first (read status)
+              if (currentTab === "unread") {
+                filtered = filtered.filter((notification) => !notification.read);
+              } else if (currentTab === "read") {
+                filtered = filtered.filter((notification) => notification.read);
+              }
+          
+              // Apply type filter
+              if (typeFilter !== "all") {
+                filtered = filtered.filter((notification) => notification.type === typeFilter);
+              }
+          
+              // Apply search query
+              if (searchQuery) {
+                const lowerQuery = searchQuery.toLowerCase();
+                filtered = filtered.filter(
+                  (notification) =>
+                    notification.title.toLowerCase().includes(lowerQuery) ||
+                    notification.message.toLowerCase().includes(lowerQuery)
+                );
+              }
+              
+              return filtered;
+            });
+            
             // Recalculate unread count
-            setUnreadCount(
-              updatedNotifications.filter((notification) => !notification.read)
-                .length
-            );
+            setUnreadCount((count) => {
+              const updatedNotifications = notifications.map((notification) =>
+                notification.id === payload.new.id
+                  ? (payload.new as Notification)
+                  : notification
+              );
+              return updatedNotifications.filter((notification) => !notification.read).length;
+            });
           } else if (payload.eventType === "DELETE") {
-            const filteredNotifications = notifications.filter(
-              (notification): notification is Notification =>
-                notification.id !== payload.old.id
-            );
-            setNotifications(filteredNotifications);
-            applyFilters(
-              filteredNotifications,
-              searchQuery,
-              typeFilter,
-              currentTab
-            );
+            setNotifications((current) => {
+              const filteredNotifications = current.filter(
+                (notification) => notification.id !== payload.old.id
+              );
+              return filteredNotifications;
+            });
+            
+            // Update filtered notifications separately
+            setFilteredNotifications(prevFiltered => {
+              const filteredNotifications = prevFiltered.filter(
+                (notification) => notification.id !== payload.old.id
+              );
+              return filteredNotifications;
+            });
+            
             // Recalculate unread count
-            setUnreadCount(
-              filteredNotifications.filter((notification) => !notification.read)
-                .length
-            );
+            setUnreadCount((count) => {
+              const filteredNotifications = notifications.filter(
+                (notification) => notification.id !== payload.old.id
+              );
+              return filteredNotifications.filter((notification) => !notification.read).length;
+            });
           }
         }
       )
@@ -197,7 +264,7 @@ export default function NotificationsPage() {
     return () => {
       subscription?.unsubscribe();
     };
-  }, [notifications, searchQuery, typeFilter, currentTab, applyFilters, userId]);
+  }, [userId, searchQuery, typeFilter, currentTab]);
 
   // Apply filters when search, type filter, or tab changes
   useEffect(() => {
